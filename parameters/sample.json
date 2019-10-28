@@ -1,0 +1,10 @@
+[
+    {
+        "ParameterKey:" : "project",
+        "ParameterValue" : "hogehoge-project"
+    },
+    {
+        "ParameterKey:" : "env",
+        "ParameterValue" : "dev"
+    }
+]

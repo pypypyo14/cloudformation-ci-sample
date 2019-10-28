@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  project:
+    Type: String
+  env:
+    Type: String
+    AllowedValues:
+    - "dev"
+    - "pro"
+
+Resources:
+  skato_s3:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: !Sub "${env}-${project}-bucket"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: false
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
