@@ -1,0 +1,38 @@
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.16
+
+jobs:
+  cloudformation-template-check:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/setup:
+          profile-name: example
+      - run: "aws cloudformation validate-template --template-body file://template/sample.yml --profile example"
+  cloudformation-deploy:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/setup:
+          profile-name: example
+      - run: "aws s3 ls --profile example"
+
+workflows:
+  version: 2.1
+  aws-cli:
+    jobs:
+      - cloudformation-template-check
+      - deploy-approval:
+          type: approval
+          requires:
+            - cloudformation-template-check
+          filters:
+            branches:
+              only: master
+      - cloudformation-deploy:
+          requires: 
+            - deploy-approval
+          filters:
+            branches:
+              only: master
